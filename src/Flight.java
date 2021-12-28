@@ -25,5 +25,24 @@ public class Flight extends Thread{
     public void run() {
         super.run();
 
+        int freeRunwayToDepart = departAirPort.depart(flightNum);
+        try {
+            sleep(2000); // Make it random between 2 to 5.
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        departAirPort.makeFreeRunway(flightNum, freeRunwayToDepart);
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        int freeRunwayToLand = landAirPort.land(flightNum);
+        try {
+            sleep(2000); // Make it random between 2 to 5.
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        landAirPort.makeFreeRunway(flightNum, freeRunwayToLand);
     }
 }
