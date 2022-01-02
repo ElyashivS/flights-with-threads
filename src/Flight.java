@@ -25,24 +25,36 @@ public class Flight extends Thread{
     public void run() {
         super.run();
 
-        int freeRunwayToDepart = departAirPort.depart(flightNum);
-        try {
-            sleep(2000); // Make it random between 2 to 5.
+        // Departing
+        departAirPort.queue.add(flightNum); // Add flight to queue
+        int freeRunwayToDepart = departAirPort.depart(flightNum); // Trying to get number of free runway to depart from.
+        try { // Got number of freeway, and his turn. DEPARTING.
+            System.out.println("flight number " + (flightNum + 1) + " is DEPARTING from runway number " + (freeRunwayToDepart + 1) + " in " + departAirPort.getName());
+            sleep(2000); // Make it random between 2 and 5.
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         departAirPort.makeFreeRunway(flightNum, freeRunwayToDepart);
+        System.out.println("runway number " + (freeRunwayToDepart + 1) + " in " + departAirPort.getName() + " is clear");
+
+        // Flying
         try {
             sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        // Landing
+        landAirPort.queue.add(flightNum); // Add flight to queue
         int freeRunwayToLand = landAirPort.land(flightNum);
         try {
-            sleep(2000); // Make it random between 2 to 5.
+            System.out.println("flight number " + (flightNum + 1) + " is LANDING to runway number " + (freeRunwayToLand + 1) + " in " + departAirPort.getName());
+            sleep(2000); // Make it random between 2 and 5.
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         landAirPort.makeFreeRunway(flightNum, freeRunwayToLand);
+        System.out.println("runway number " + (freeRunwayToDepart + 1) + " in " + departAirPort.getName() + " is clear");
     }
 }
