@@ -4,8 +4,8 @@ public class Main {
     public static void main(String[] args) {
         Random rand = new Random();
 
-        AirPort airPort1 = new AirPort("TLV", 10);
-        AirPort airPort2 = new AirPort("LHR", 10);
+        AirPort airPort1 = new AirPort("TLV", 3);
+        AirPort airPort2 = new AirPort("LHR", 3);
         boolean direction;
 
         Flight[] flights = new Flight[10];

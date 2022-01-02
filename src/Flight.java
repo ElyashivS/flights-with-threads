@@ -25,12 +25,17 @@ public class Flight extends Thread{
     public void run() {
         super.run();
 
+        long randTime = 2000 + (long) (Math.random() * (3000)); // Random seconds between 2 and 5.
+        long randTimeOfFlying = 4000 + (long) (Math.random() * (5000)); // Random seconds between 4 and 7.
+
+
         // Departing
         departAirPort.queue.add(flightNum); // Add flight to queue
         int freeRunwayToDepart = departAirPort.depart(flightNum); // Trying to get number of free runway to depart from.
         try { // Got number of freeway, and his turn. DEPARTING.
+            sleep(200);
             System.out.println("flight number " + (flightNum + 1) + " is DEPARTING from runway number " + (freeRunwayToDepart + 1) + " in " + departAirPort.getName());
-            sleep(2000); // Make it random between 2 and 5.
+            sleep(randTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -40,7 +45,7 @@ public class Flight extends Thread{
 
         // Flying
         try {
-            sleep(5000);
+            sleep(randTimeOfFlying);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -48,9 +53,10 @@ public class Flight extends Thread{
         // Landing
         landAirPort.queue.add(flightNum); // Add flight to queue
         int freeRunwayToLand = landAirPort.land(flightNum);
-        try {
+        try { // Got number of freeway, and his turn. LANDING.
+            sleep(200);
             System.out.println("flight number " + (flightNum + 1) + " is LANDING to runway number " + (freeRunwayToLand + 1) + " in " + departAirPort.getName());
-            sleep(2000); // Make it random between 2 and 5.
+            sleep(randTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

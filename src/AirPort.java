@@ -23,37 +23,34 @@ public class AirPort {
     }
 
     private synchronized int waitForFreeRunway(int flightNum) {
-        int temp = getFreeRunway();
-
         // No available runway, or not his turn. Exit from while when find free runway and his turn.
-        while ((temp == -1) || (queue.peek() != null && queue.peek() != flightNum)) {
+        while ((getFreeRunway() == -1) || (queue.peek() != null && queue.peek() != flightNum)) {
+//            System.out.println((flightNum + 1) + " get route: " + temp);
             try {
                 wait(); // notify in line 46
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            temp = getFreeRunway(); // Trying again.
+
         }
+        int temp = getFreeRunway(); // Trying again.
         // Found free runway and his turn.
         freeRunWays[temp] = false;
+        queue.poll();
         return temp;
     }
 
     public synchronized void makeFreeRunway(int flightNum, int numOfFreeRunway) {
-        if (queue.peek() != null) {
-            queue.poll();
-            freeRunWays[numOfFreeRunway] = true;
-            notifyAll();
-        }
+        freeRunWays[numOfFreeRunway] = true;
+        notifyAll();
     }
 
     public String getName() {
         return name;
     }
 
-    private int getFreeRunway() {
+    private synchronized int getFreeRunway() {
         for (int i = 0; i < freeRunWays.length; i++) {
-            System.out.println("i = " + i);
             if (freeRunWays[i]) {
                 return i;
             }
